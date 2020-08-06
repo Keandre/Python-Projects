@@ -6,8 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///todo.db?check_same_thread=False')
-Base = declarative_base()
+
 
 
 class task(Base):
@@ -17,22 +16,9 @@ class task(Base):
     deadline = Column(Date, default=datetime.today())
 
 
-def __repr__(self):
-    return self.task
+    def __repr__(self):
+        return self.task
 
-
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
-
-
-# task_str = input("Enter task")
-# new_task = task(id=len(rows) + 1, task=task_str)
-# session.add(new_task)
-# session.commit()
-# rows = session.query(task).all()
-# print("Task added")
-# rows = session.query(task).all()
 def todays_tasks():
     rows = session.query(task).filter(task.deadline == datetime.today().date()).all()
     print(f"Today {datetime.today().strftime('%d %b')}:")
@@ -100,29 +86,32 @@ def delete_task():
     print("The task has been deleted!")
 
 
-def main():
-    while True:
-        print("1) Today's tasks")
-        print("2) Week's tasks")
-        print("3) All tasks")
-        print("4) Missed tasks")
-        print("5) Add task")
-        print("6) Delete task")
-        print("0) Exit")
-        option = int(input(""))
-        if option == 1:
-            todays_tasks()
-        elif option == 2:
-            weeks_tasks()
-        elif option == 3:
-            all_tasks()
-        elif option == 4:
-            missed_tasks()
-        elif option == 5:
-            add_task()
-        elif option == 6:
-            delete_task()
-        else:
-            break
-main()
+engine = create_engine('sqlite:///todo.db?check_same_thread=False')
+Base = declarative_base()
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
+while True:
+    print("1) Today's tasks")
+    print("2) Week's tasks")
+    print("3) All tasks")
+    print("4) Missed tasks")
+    print("5) Add task")
+    print("6) Delete task")
+    print("0) Exit")
+    option = int(input("")
+    if option == 1:
+        todays_tasks()
+    elif option == 2:
+        weeks_tasks()
+    elif option == 3:
+        all_tasks()
+    elif option == 4:
+        missed_tasks()
+    elif option == 5:
+        add_task()
+    elif option == 6:
+        delete_task()
+    else:
+        break
 print("Bye!")
